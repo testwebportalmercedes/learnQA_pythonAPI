@@ -1,0 +1,47 @@
+import requests
+from lib.base_case import BaseCase
+from lib.assertions import Assertions
+from datetime import datetime
+
+class TestUserRegister(BaseCase):
+    def setup(self):                                                          # Создание нового емайла по времени
+        base_path = 'learnqa'
+        domain = 'example.com'
+        random_part = datetime.now().strftime('%m%d%y%H%M%S')
+        self.email = f'{base_path}{random_part}@{domain}'
+
+
+    def test_user_successfully(self):
+        data = {
+
+            'username': 'learnqa1',
+            'firstName': 'learnqa1',
+            'lastName': 'learnqa1',
+            'email': self.email,
+            'password': '123'
+        }
+        response = requests.post('https://playground.learnqa.ru/api/user/', data=data)
+        Assertions.assert_id_in_content(response, 'id')                                      # функция проверки вхождения
+        Assertions.assert_code_status(response, 200)                                         # функция проверки статус кода
+
+
+
+
+
+    def test_create_user_with_existing_email(self):                            # Негативный тест что юзер уже был создан ранее
+        email = 'vinkotov+2@example.com'
+        data = {
+
+            'username': 'learnqa1',
+            'firstName': 'learnqa1',
+            'lastName': 'learnqa1',
+            'email': email,
+            'password': '123'
+        }
+
+        response = requests.post('https://playground.learnqa.ru/api/user/', data=data)
+        Assertions.assert_code_status(response, 400)                                          # функция проверки статус кода
+        assert response.content.decode('utf-8') == f"Users with email '{email}' already exists", f'Unexpected response content{response.content}'
+        print(response.status_code)
+        print(response.content)
+
