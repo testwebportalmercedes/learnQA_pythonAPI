@@ -1,6 +1,7 @@
-import requests
+
 from lib.base_case import BaseCase
 from lib.assertions import Assertions
+from lib.my_requests import MyRequests
 from datetime import datetime
 
 class TestUserRegister(BaseCase):
@@ -22,7 +23,7 @@ class TestUserRegister(BaseCase):
         #     'email': self.email,
         #     'password': '123'
         # }
-        response = requests.post('https://playground.learnqa.ru/api/user/', data=data)
+        response = MyRequests.post('/user/', data=data)                                      # Заменено функцией из My_Requeste
         Assertions.assert_id_in_content(response, 'id')                                      # функция проверки вхождения
         Assertions.assert_code_status(response, 200)                                         # функция проверки статус кода
 
@@ -42,9 +43,8 @@ class TestUserRegister(BaseCase):
         #     'password': '123'
         # }
 
-        response = requests.post('https://playground.learnqa.ru/api/user/', data=data)
+        response = MyRequests.post('/user/', data=data)                                       # Заменено функцией из My_Requeste
         Assertions.assert_code_status(response, 400)                                          # функция проверки статус кода
         assert response.content.decode('utf-8') == f"Users with email '{email}' already exists", f'Unexpected response content{response.content}'
-        print(response.status_code)
-        print(response.content)
+
 

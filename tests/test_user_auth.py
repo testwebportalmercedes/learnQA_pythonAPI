@@ -2,6 +2,7 @@ import requests
 import pytest
 from lib.base_case import BaseCase
 from lib.assertions import Assertions
+from lib.my_requests import MyRequests
 
 class TestUserAuth(BaseCase):
     exclude_paras = [
@@ -14,8 +15,9 @@ class TestUserAuth(BaseCase):
             'password' : '1234'
         }
 
-        response1= requests.post('https://playground.learnqa.ru/api/user/login', data=data)
-        print(dict(response1.cookies))
+        # response1= requests.post('https://playground.learnqa.ru/api/user/login', data=data)                                                                                # Заменено функцией из My_Requeste
+        response1= MyRequests.post('/user/login', data=data)
+
 
 
         # assert 'auth_sid' in response1.cookies, 'There is no auth cookie in the response'
@@ -37,7 +39,7 @@ class TestUserAuth(BaseCase):
 
     def test_auth_user(self):   # Позитивный тест
 
-        response2 = requests.get('https://playground.learnqa.ru/api/user/auth',
+        response2 = MyRequests.get('/user/auth',                                                                                                  # Заменено функцией из My_Requeste
                                  headers={'x-csrf-token': self.token},
                                  cookies={'auth_sid': self.auth_sid}
                                  )
@@ -59,11 +61,11 @@ class TestUserAuth(BaseCase):
     @pytest.mark.parametrize('condition', exclude_paras)
     def test_negative_auth_user(self,condition):  #негативный тест
         if condition == 'no_token':
-            response2 = requests.get('https://playground.learnqa.ru/api/user/auth',
+            response2 = MyRequests.get('/user/auth',                                                                                             # Заменено функцией из My_Requeste
                                      headers={'x-csrf-token' : self.token}    # Передает неверный токен и получаем в ответе ID = 0
                                      )
         else:
-            response2 = requests.get('https://playground.learnqa.ru/api/user/auth',
+            response2 = MyRequests.get('/user/auth',                                                                                             # Заменено функцией из My_Requeste
                                      cookies={'auth_sid': self.auth_sid}
                                      )
 
