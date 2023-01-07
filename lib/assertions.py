@@ -24,3 +24,11 @@ class Assertions:
     @staticmethod
     def assert_code_status(response: Response, expected_stasus_cod):
         assert response.status_code == expected_stasus_cod, f'Unexpected status cod! Expected: {expected_stasus_cod}. Actual: {response.status_code}'
+
+    @staticmethod
+    def assert_not_id_in_content(response: Response, content):
+        try:
+            content_as_dict = response.json()
+        except json.JSONDecodeError:
+            assert False, f'Response is not in JSON format. Response text is "{response.text}"'
+        assert content not in content_as_dict, f'id in {content}'
