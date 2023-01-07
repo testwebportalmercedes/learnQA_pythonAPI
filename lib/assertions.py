@@ -32,3 +32,8 @@ class Assertions:
         except json.JSONDecodeError:
             assert False, f'Response is not in JSON format. Response text is "{response.text}"'
         assert content not in content_as_dict, f'id in {content}'
+
+    @staticmethod
+    def assert_not_text_in_response(response: Response, content):
+        content_as_text = response
+        assert content not in content_as_text, f'Text {content} not in response'

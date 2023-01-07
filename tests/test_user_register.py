@@ -48,3 +48,10 @@ class TestUserRegister(BaseCase):
         assert response.content.decode('utf-8') == f"Users with email '{email}' already exists", f'Unexpected response content{response.content}'
 
 
+    def test_create_user_with_incorect_email(self):
+        email = 'vinkotov+2example.com'
+        data = self.test_user_register(email)
+        response1 = MyRequests.post('/user/', data=data)
+        Assertions.assert_code_status(response1, 400)
+        Assertions.assert_not_text_in_response(response1, 'Invalid email format')
+        print(response1.text)
