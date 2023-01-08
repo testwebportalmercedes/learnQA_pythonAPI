@@ -25,6 +25,7 @@ class TestUserDelete(BaseCase):
 
         print(response2.text)
 
+
     def test_can_delete_accaunt_after_register_and_auth(self):
         # Register
         data = self.test_user_register()

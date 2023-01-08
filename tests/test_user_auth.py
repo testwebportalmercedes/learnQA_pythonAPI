@@ -39,6 +39,7 @@ class TestUserAuth(BaseCase):
 
     def test_auth_user(self):   # Позитивный тест
 
+
         response2 = MyRequests.get('/user/auth',                                                                                                  # Заменено функцией из My_Requeste
                                  headers={'x-csrf-token': self.token},
                                  cookies={'auth_sid': self.auth_sid}

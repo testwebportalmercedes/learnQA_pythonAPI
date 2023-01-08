@@ -54,3 +54,4 @@ class TestUserGet(BaseCase):
         Assertions.assert_not_id_in_content(response2, 'email')
         Assertions.assert_not_id_in_content(response2, 'firstName')
         Assertions.assert_not_id_in_content(response2, 'lastName')
+
