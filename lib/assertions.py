@@ -35,5 +35,5 @@ class Assertions:
 
     @staticmethod
     def assert_not_text_in_response(response: Response, content):
-        content_as_text = response
-        assert content not in content_as_text, f'Text {content} not in response'
+        content_as_text = response.text
+        assert content in content_as_text, f'Text {content} not in response'

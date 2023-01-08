@@ -72,5 +72,8 @@ class TestUserRegister(BaseCase):
         }
         response1 = MyRequests.post('/user/', data=data)
         Assertions.assert_code_status(response1, 400)
-        Assertions.assert_not_text_in_response(response1, 'The value of "username" field is too long')
+        print(response1.text)
+        Assertions.assert_not_text_in_response(response1, "The value of 'username' field is too long")
+
+
 
