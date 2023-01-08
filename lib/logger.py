@@ -35,3 +35,4 @@ class Logger:
         data_to_add += f'\n-----\n'
 
         cls._write_log_to_file(data_to_add)
+

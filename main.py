@@ -1,5 +1,6 @@
 import requests
 from json.decoder import JSONDecodeError
+from datetime import datetime
 
 # # обработка JSON
 # response = requests.get('https://playground.learnqa.ru/api/hello')
@@ -27,16 +28,24 @@ from json.decoder import JSONDecodeError
 
 # Куки
 
-payload = {'login':'secret_login', 'password':'secret_pass'}
-response1 = requests.post("https://playground.learnqa.ru/api/get_auth_cookie",data=payload)
+# payload = {'login':'secret_login', 'password':'secret_pass'}
+# response1 = requests.post("https://playground.learnqa.ru/api/get_auth_cookie",data=payload)
+#
+# print(dict(response1.cookies))
+#
+# cookie_value = response1.cookies.get('auth_cookie')
+# cookie = {}
+# if cookie_value is not None:
+#     cookie.update({'auth_cookie': cookie_value})
+#
+# response2 = requests.post("https://playground.learnqa.ru/api/check_auth_cookie",cookies=cookie)
+#
+# print(response2.text)
 
-print(dict(response1.cookies))
 
-cookie_value = response1.cookies.get('auth_cookie')
-cookie = {}
-if cookie_value is not None:
-    cookie.update({'auth_cookie': cookie_value})
+base_path = 'learnqa'
+domain = 'example.com'
+random_part = datetime.now().strftime('%m%d%y%H%M%S')
+email = f'{base_path}{random_part}@{domain}'
+print(email)
 
-response2 = requests.post("https://playground.learnqa.ru/api/check_auth_cookie",cookies=cookie)
-
-print(response2.text)
