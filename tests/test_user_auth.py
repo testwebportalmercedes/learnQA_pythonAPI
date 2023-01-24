@@ -3,7 +3,9 @@ import pytest
 from lib.base_case import BaseCase
 from lib.assertions import Assertions
 from lib.my_requests import MyRequests
+import  allure
 
+@allure.epic('Authorization cases')
 class TestUserAuth(BaseCase):
     exclude_paras = [
         ('no_cookie'),
@@ -36,7 +38,7 @@ class TestUserAuth(BaseCase):
         # self.user_id_from_auth_metod = response1.json()['user_id'] > self.user_id_from_auth_metod = self.gei_json_value(response1, 'user_id')
 
 
-
+    @allure.description('This test successfully authorize user by email and password')
     def test_auth_user(self):   # Позитивный тест
 
 
@@ -58,7 +60,7 @@ class TestUserAuth(BaseCase):
         #
         # assert self.user_id_from_auth_metod == user_id_from_check_metod, 'Юзеры совпадают'
 
-
+    @allure.description('This test checks authorization status w/o sending auth cookie or token')
     @pytest.mark.parametrize('condition', exclude_paras)
     def test_negative_auth_user(self,condition):  #негативный тест
         if condition == 'no_token':
