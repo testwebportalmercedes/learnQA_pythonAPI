@@ -5,35 +5,29 @@ import time
 
 
 class TestUserDelete(BaseCase):
-    def test_cannot_delete_id2(self):  # Тест на попытку удолить пользователя по ID 2
+    def test_cannot_delete_id2(self):  # Тест на попытку удалить пользователя по ID 2
         data = {
             'email': 'vinkotov@example.com',
             'password': '1234'
         }
 
         response1 = MyRequests.post('/user/login', data=data)
-
-        self.user_id_from_auth_metod = self.get_json_value(response1, 'user_id')
+        self.user_id_from_auth_method = self.get_json_value(response1, 'user_id')
         self.auth_sid = self.get_cookie(response1, 'auth_sid')
         self.token = self.get_header(response1, 'x-csrf-token')
-
-        response2 = MyRequests.delete(f'/user/{self.user_id_from_auth_metod}',  # Заменено функцией из My_Requeste
+        response2 = MyRequests.delete(f'/user/{self.user_id_from_auth_method}',  # Заменено функцией из My_Requeste
                                       headers={'x-csrf-token': self.token},
                                       cookies={'auth_sid': self.auth_sid}
                                       )
         Assertions.assert_not_text_in_response(response2, 'Please, do not delete test users with ID 1, 2, 3, 4 or 5.')
-
         print(response2.text)
 
-
-    def test_can_delete_accaunt_after_register_and_auth(self):
+    def test_can_delete_account_after_register_and_auth(self):
         # Register
         data = self.test_user_register()
         response1 = MyRequests.post('/user', data=data)
-
         Assertions.assert_code_status(response1, 200)
         Assertions.assert_id_in_content(response1, 'id')
-
         email = data['email']
         firstName = data['firstName']
         password = data['password']
@@ -44,7 +38,6 @@ class TestUserDelete(BaseCase):
             'email': email,
             'password': password
         }
-
         response2 = MyRequests.post('/user/login', data=data)
         auth_sid = self.get_cookie(response2, 'auth_sid')
         token = self.get_header(response2, 'x-csrf-token')
@@ -63,7 +56,7 @@ class TestUserDelete(BaseCase):
         Assertions.assert_not_text_in_response(response4, 'User not found')
         print(response4.text)
 
-    def test_cannot_delete_accaunt(self):  # Попытка удаления аккаунта из другого аккаунта
+    def test_cannot_delete_account(self):  # Попытка удаления аккаунта из другого аккаунта
         data1 = self.test_user_register()
         response1 = MyRequests.post('/user', data=data1)
         email1 = data1['email']
@@ -85,7 +78,6 @@ class TestUserDelete(BaseCase):
             'email': email1,
             'password': password1
         }
-
         response3 = MyRequests.post('/user/login', data=data)
         auth_sid = self.get_cookie(response3, 'auth_sid')
         token = self.get_header(response3, 'x-csrf-token')
